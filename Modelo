@@ -1,0 +1,36 @@
+import os
+import csv
+from datetime import datetime
+class paciente: 
+    pacientes = []
+    def __init__(self, name, age, ID, lastname):
+        self.__name = name
+        self.__age = age
+        self.__lastname = lastname
+        self.__ID: ID
+    
+    def agregar_paciente(self, name, age, ID, lastname):
+        if not self.verificar_identificacion_existente(ID):
+            paciente = paciente(name,lastname, age, ID)
+            self.pacientes.append(paciente)
+            return True
+        else: 
+             return False
+    def verificar_existencia(self, ID):
+        for pacientes in self.pacientes:
+            if paciente.ID == ID:
+                return True
+        return False
+
+    def guardar_pacientes(self, archivo):
+        with open(archivo, 'w') as file:
+            for paciente in self.pacientes:
+                file.write(f"{paciente.name},{paciente.lastname},{paciente.age},{paciente.iID}\n")
+
+    def cargar_pacientes_desde_archivo(self, archivo):
+        self.pacientes = []
+        with open(archivo, 'r') as file:
+            for line in file:
+                nombre, apellido, edad, identificacion = line.strip().split(',')
+                paciente = paciente(name, lastname, int(age), ID)
+                self.pacientes.append(paciente)
