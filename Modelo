@@ -9,6 +9,18 @@ class paciente:
         self.__lastname = lastname
         self.__ID: ID
     
+    def name(self):
+        return self.__name
+
+    def lastname(self):
+        return self.__lastname
+
+    def age(self):
+        return self.__age
+
+    def ID(self):
+        return self.__ID
+    
     def agregar_paciente(self, name, age, ID, lastname):
         if not self.verificar_identificacion_existente(ID):
             paciente = paciente(name,lastname, age, ID)
@@ -23,14 +35,17 @@ class paciente:
         return False
 
     def guardar_pacientes(self, archivo):
-        with open(archivo, 'w') as file:
+        with open(archivo, 'w', newline = '') as file:
+            write = csv.writer(file)
+            write.writerow(['Nombre', 'Apellido', 'Edad', 'ID'])
             for paciente in self.pacientes:
-                file.write(f"{paciente.name},{paciente.lastname},{paciente.age},{paciente.iID}\n")
+                write.writerow([paciente.name, paciente.lastname, paciente.age, paciente.ID])
 
     def cargar_pacientes_desde_archivo(self, archivo):
         self.pacientes = []
         with open(archivo, 'r') as file:
-            for line in file:
-                nombre, apellido, edad, identificacion = line.strip().split(',')
-                paciente = paciente(name, lastname, int(age), ID)
+            reader = csv.DictReader(file)
+            for row in reader:
+                paciente = self(row['Nombre'], row['Apellido'], int(row['edad']), row['ID'])
                 self.pacientes.append(paciente)
+                
