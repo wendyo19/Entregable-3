@@ -33,12 +33,13 @@ class paciente:
         if not self.verificar_identificacion_existente(ID):
             paciente = paciente(name,lastname, age, ID)
             self.pacientes.append(paciente)
+            self.guardar_pacientes("pacientes.json")
             return True
         else: 
              return False
         
     def verificar_existencia(self, ID):
-        for pacientes in self.pacientes:
+        for paciente in self.pacientes:
             if paciente.ID == ID:
                 return True
         return False
