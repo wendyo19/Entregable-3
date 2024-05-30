@@ -1,6 +1,4 @@
-import os
-import csv
-from datetime import datetime
+import json
 class paciente: 
     pacientes = []
     def __init__(self, name, age, ID, lastname):
@@ -8,7 +6,17 @@ class paciente:
         self.__age = age
         self.__lastname = lastname
         self.__ID: ID
-    
+        self.__login = ""
+        self.__password = ""
+
+    def setlogin(self, admin123):
+        self.__login = admin123
+    def setPassword(self, contrasena123):
+        self.__password = contrasena123
+
+    def Validar_usuario(self, admin123, contrasena123):
+        return(self.__login == admin123) and (self.__password == contrasena123)
+        
     def name(self):
         return self.__name
 
@@ -28,6 +36,7 @@ class paciente:
             return True
         else: 
              return False
+        
     def verificar_existencia(self, ID):
         for pacientes in self.pacientes:
             if paciente.ID == ID:
@@ -35,17 +44,30 @@ class paciente:
         return False
 
     def guardar_pacientes(self, archivo):
-        with open(archivo, 'w', newline = '') as file:
-            write = csv.writer(file)
-            write.writerow(['Nombre', 'Apellido', 'Edad', 'ID'])
-            for paciente in self.pacientes:
-                write.writerow([paciente.name, paciente.lastname, paciente.age, paciente.ID])
+       pacientes_json = [
+           {
+               "ID" : paciente.ID(),
+               "nombre": paciente.name(),
+               "apellido": paciente.lastname(),
+               "edad" : paciente.age()
+           }
+           for paciente in self.pacientes
+       ]
+       with open(archivo, 'w') as f:
+           json.dump(pacientes_json, f, indent=2)
+
 
     def cargar_pacientes_desde_archivo(self, archivo):
         self.pacientes = []
-        with open(archivo, 'r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                paciente = self(row['Nombre'], row['Apellido'], int(row['edad']), row['ID'])
+        with open(archivo, 'r') as f:
+            pacientes_json = json.load(f)
+
+            for paciente_json in pacientes_json:
+                paciente = paciente(
+                    paciente_json["ID"],
+                    paciente_json["nombre"],
+                    paciente_json["apellido"],
+                    paciente_json["edad"]
+                )
                 self.pacientes.append(paciente)
                 
