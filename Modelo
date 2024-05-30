@@ -70,4 +70,19 @@ class paciente:
                     paciente_json["edad"]
                 )
                 self.pacientes.append(paciente)
+    def buscar_paciente(self, buscar_nombre):
+        busqueda = []
+        for paciente in self.pacientes:
+            if paciente.name().lower.startswith(buscar_nombre.lower()):
+                busqueda.append(paciente)
+        return busqueda
+
+    
+    def eliminar_paciente(self, ID):
+        for paciente in self.pacientes:
+            if paciente.ID == ID:
+                self.pacientes.remove(paciente)
+                return True
+        return False
+    
                 
