@@ -1,9 +1,7 @@
-#Controlador
 from Modelo import *
-from Vista import VentanaPpal
+from Vista import *
 from PyQt5.QtWidgets import QApplication
 import sys 
-
 
 class Coordinador:
     def __init__(self,vista,modelo):
@@ -20,14 +18,15 @@ class Coordinador:
 
     def verificarIde(self,IDE):
         resultado=self.__miModelo.verificar_existencia(IDE)
-        self.__miVista.validar(resultado)
-        return
+        return resultado
     
     def buscar(self,nombre):
-        self.__miModelo.buscar_paciente(nombre)
+        resultado=self.__miModelo.buscar_paciente(nombre)
+        return resultado
     
     def eliminar(self,IDE):
-        self.__miModelo.eliminar_paciente(IDE)
+        resultado=self.__miModelo.eliminar_paciente(IDE)
+        return resultado
     
 def main():
     app=QApplication(sys.argv)
